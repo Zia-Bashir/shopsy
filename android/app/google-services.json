@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "313378041655",
+    "project_id": "shopsy-f9b35",
+    "storage_bucket": "shopsy-f9b35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313378041655:android:8633e70c70874b69b2f4b2",
+        "android_client_info": {
+          "package_name": "com.example.shopsy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "313378041655-6e99apafnu216m3gebb5jtp8cmt6mu2a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxbyMc2_eZAT370TwsOwL4PGwl_sM5lCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313378041655-6e99apafnu216m3gebb5jtp8cmt6mu2a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
