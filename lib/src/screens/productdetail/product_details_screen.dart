@@ -186,37 +186,35 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
 
                       //* -- Product Quantity --- Getx Builder
-                      GetBuilder<PopularProductController>(builder: (cont) {
-                        return Row(
-                          children: [
-                            IncreDecrementContainer(
-                              ontap: () {
-                                cont.setQuantity(false);
-                              },
-                              icon: Icons.remove,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: MyTextWidget(
-                                  title: cont.quantity.toString(),
-                                  style: style.headline3
-                                      ?.copyWith(color: Colors.black)),
-                            ),
-                            IncreDecrementContainer(
-                              ontap: () {
-                                cont.setQuantity(true);
-                              },
-                              icon: Icons.add,
-                              shadow: [
-                                BoxShadow(
-                                    offset: const Offset(2, 5),
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 5.r)
-                              ],
-                            ),
-                          ],
-                        );
-                      })
+                      Row(
+                        children: [
+                          IncreDecrementContainer(
+                            ontap: () {
+                              controller.setQuantity(false);
+                            },
+                            icon: Icons.remove,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: MyTextWidget(
+                                title: controller.quantity.value.toString(),
+                                style: style.headline3
+                                    ?.copyWith(color: Colors.black)),
+                          ),
+                          IncreDecrementContainer(
+                            ontap: () {
+                              controller.setQuantity(true);
+                            },
+                            icon: Icons.add,
+                            shadow: [
+                              BoxShadow(
+                                  offset: const Offset(2, 5),
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 5.r)
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 );

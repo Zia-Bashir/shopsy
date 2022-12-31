@@ -123,7 +123,6 @@ class PopularProductController extends GetxController {
       } else {
         quantity = quantity - 1;
       }
-      print("Qauntity is $quantity");
     }
 
     update();

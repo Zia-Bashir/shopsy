@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
+import 'package:shopsy/src/widgets/snackbar_widget.dart';
 
 import '../base/loading_widget.dart';
 
@@ -59,10 +59,7 @@ class AuthController extends GetxController {
       await pref.setBool("login", false);
       Get.offAllNamed("/complete");
     } catch (e) {
-      Get.snackbar("About User", "User Message",
-          titleText: const Text("Account Creation Failed"),
-          snackPosition: SnackPosition.BOTTOM,
-          messageText: Text(e.toString()));
+      snackBarWidget("Account Created Failed", e.toString());
     }
   }
 
@@ -86,10 +83,7 @@ class AuthController extends GetxController {
       await pref.setBool("login", true);
       Get.offAllNamed("/success");
     } catch (e) {
-      Get.snackbar("About User", "User Message",
-          titleText: const Text("Failed..."),
-          snackPosition: SnackPosition.BOTTOM,
-          messageText: Text(e.toString()));
+      snackBarWidget("Profile Completion Failed", e.toString());
     }
   }
 
@@ -118,10 +112,7 @@ class AuthController extends GetxController {
         }
       });
     } catch (e) {
-      Get.snackbar("About User", "User Message",
-          titleText: const Text("Login Failed"),
-          snackPosition: SnackPosition.BOTTOM,
-          messageText: Text(e.toString()));
+      snackBarWidget("Login Failed", e.toString());
     }
   }
 
