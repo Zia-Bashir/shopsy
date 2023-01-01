@@ -29,8 +29,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
     // print("Product id -------------$productId");
     var style = Theme.of(context).textTheme;
-    PopularProductController popularProductController =
-        PopularProductController();
+
     return Scaffold(
       backgroundColor: AppColors.productBGColor,
       appBar: CustomAppBar(id: pageId, proId: productId),
@@ -96,12 +95,12 @@ class ProductDetailsScreen extends StatelessWidget {
               topRight: Radius.circular(40.r),
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //* -- Color and Product Selection Getx Builder
-              GetBuilder<PopularProductController>(builder: (controller) {
-                return Padding(
+          child: GetBuilder<PopularProductController>(builder: (controller) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //* -- Color and Product Selection Getx Builder
+                Padding(
                   padding: EdgeInsets.only(top: 24.h, right: 24.w, left: 24.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,11 +135,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
                                       //* -- Product Select Color
 
-                                      popularProductController
-                                          .productSelectedColor
-                                          .value = snapshot.data!.docs[
-                                              controller.selectedColor.value]
-                                          ['color'];
+                                      controller.productSelectedColor.value =
+                                          snapshot.data!.docs[controller
+                                              .selectedColor.value]['color'];
                                     },
                                     child: Container(
                                       height: 40.h,
@@ -185,7 +182,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       ),
 
-                      //* -- Product Quantity --- Getx Builder
+                      //* -- Product Quantity
                       Row(
                         children: [
                           IncreDecrementContainer(
@@ -217,46 +214,46 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
-              }),
-              //* -- Add to Cart
+                ),
 
-              Container(
-                height: 130.h,
-                width: screenWidth,
-                padding: EdgeInsets.only(top: 20.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40.r),
-                    topRight: Radius.circular(40.r),
+                //* -- Add to Cart
+
+                Container(
+                  height: 130.h,
+                  width: screenWidth,
+                  padding: EdgeInsets.only(top: 20.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40.r),
+                      topRight: Radius.circular(40.r),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 55.w),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        MyElevatedButtonWidget(
+                          text: "Add to Cart",
+                          ontap: () {
+                            controller.addedToCart(
+                                productId!,
+                                pageId,
+                                controller.productSelectedColor.value,
+                                controller.getQuantity);
+                            print("Color ${controller.productSelectedColor}");
+                            showToast(context,
+                                const SuccessToast(msg: "Added to Cart"));
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 55.w),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      MyElevatedButtonWidget(
-                        text: "Add to Cart",
-                        ontap: () {
-                          popularProductController.addedToCart(
-                            productId!,
-                            pageId,
-                            popularProductController.productSelectedColor.value,
-                          );
-                          print(
-                              "Color ${popularProductController.productSelectedColor}");
-                          showToast(context,
-                              const SuccessToast(msg: "Added to Cart"));
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         ),
       ),
     );

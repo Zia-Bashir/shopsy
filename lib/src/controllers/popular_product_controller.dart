@@ -70,6 +70,7 @@ class PopularProductController extends GetxController {
     String productId,
     int productIndex,
     String productColor,
+    int quantity,
   ) {
     return cartProductRF
         .doc(authCurrentUser)
@@ -80,7 +81,7 @@ class PopularProductController extends GetxController {
       "productId": productId,
       "productIndex": productIndex,
       "productColor": productColor,
-      "quantity": quantity.value,
+      "quantity": quantity,
       "price": 49.99,
       "isCart": true
     });
@@ -126,5 +127,9 @@ class PopularProductController extends GetxController {
     }
 
     update();
+  }
+
+  int get getQuantity {
+    return quantity.value;
   }
 }

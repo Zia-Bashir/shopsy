@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:shopsy/src/controllers/auth_controller.dart';
 import 'package:shopsy/src/extension/form_validate.dart';
-import 'package:shopsy/src/screens/forget%20password/forget_password_confirm.dart';
 import 'package:shopsy/src/utils/app_sizes.dart';
 import 'package:shopsy/src/utils/app_text.dart';
 import 'package:shopsy/src/widgets/my_elevated_button_widget.dart';
@@ -59,7 +58,8 @@ class _MailFormState extends State<MailForm> {
           MyElevatedButtonWidget(
               ontap: () {
                 if (_formKey.currentState!.validate()) {
-                  Get.to(() => const ForgetPasswordConfirmScreen());
+                  AuthController.instance
+                      .forgetPassword(emailController.text.trim());
                 }
               },
               text: tContinue),

@@ -18,17 +18,7 @@ class AuthController extends GetxController {
     super.onReady();
     _user = Rx<User?>(auth.currentUser);
     _user.bindStream(auth.userChanges());
-    // ever(_user, _initialScreen);
   }
-
-  // _initialScreen(User? user) {
-  //   if (user == null) {
-  //     //* ---- login Screen ----
-  //     Get.offAllNamed("/login");
-  //   } else {
-  //     Get.offAllNamed('/home'); //* ---- Home Screen ----
-  //   }
-  // }
 
   //* -- Registration
 
@@ -82,6 +72,8 @@ class AuthController extends GetxController {
       final SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setBool("login", true);
       Get.offAllNamed("/success");
+      snackBarWidget("About Profile", "Profile Created Successfully",
+          success: true);
     } catch (e) {
       snackBarWidget("Profile Completion Failed", e.toString());
     }
@@ -111,6 +103,7 @@ class AuthController extends GetxController {
           Get.offAllNamed("/complete");
         }
       });
+      snackBarWidget("About User", "Login Successfully", success: true);
     } catch (e) {
       snackBarWidget("Login Failed", e.toString());
     }
@@ -125,8 +118,55 @@ class AuthController extends GetxController {
         return await auth.signOut();
       },
     );
+    snackBarWidget("About User", "Logout Successfully", success: true);
     final SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setBool("login", false);
     Get.offAllNamed("/login");
+  }
+
+  //* -- Forget Password
+
+  forgetPassword(String email) async {
+    try {
+      List<String> signInMethods = await auth.fetchSignInMethodsForEmail(email);
+      if (signInMethods.isEmpty) {
+        snackBarWidget("About User", "User email doesn't exist",
+            success: false);
+      } else {
+        Get.showOverlay(
+          loadingWidget: const Loading(),
+          asyncFunction: () async {
+            return await auth.sendPasswordResetEmail(email: email);
+          },
+        );
+        snackBarWidget("About Email", "Reset email sent successfully",
+            success: true);
+        Get.offAllNamed("/login");
+      }
+    } catch (error) {
+      snackBarWidget("About User", error.toString(), success: false);
+    }
+  }
+
+  //* -- Verify Email
+  verifyEmail() async {
+    try {
+      User? user = auth.currentUser!;
+      if (!(user.emailVerified)) {
+        Get.showOverlay(
+          loadingWidget: const Loading(),
+          asyncFunction: () async {
+            return await user.sendEmailVerification();
+          },
+        );
+        userRF.doc(auth.currentUser!.uid).update({
+          "emailVerfied": true,
+        });
+        snackBarWidget("About Email", "Verify email sent successfully",
+            success: true);
+      }
+    } catch (e) {
+      snackBarWidget("About Email", e.toString(), success: false);
+    }
   }
 }
