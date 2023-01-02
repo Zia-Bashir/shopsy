@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
+import 'package:shopsy/src/services/storage_services.dart';
+import 'package:shopsy/src/utils/storage.dart';
 import 'package:shopsy/src/widgets/snackbar_widget.dart';
 
 import '../base/loading_widget.dart';
@@ -45,8 +46,7 @@ class AuthController extends GetxController {
                   });
         },
       );
-      final SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setBool("login", false);
+      await StorageServices.to.setBool(LOGIN_STATE, false);
       Get.offAllNamed("/complete");
     } catch (e) {
       snackBarWidget("Account Created Failed", e.toString());
@@ -69,8 +69,7 @@ class AuthController extends GetxController {
           });
         },
       );
-      final SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setBool("login", true);
+      await StorageServices.to.setBool(LOGIN_STATE, true);
       Get.offAllNamed("/success");
       snackBarWidget("About Profile", "Profile Created Successfully",
           success: true);
@@ -91,8 +90,7 @@ class AuthController extends GetxController {
         },
       );
 
-      final SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setBool("login", true);
+      await StorageServices.to.setBool(LOGIN_STATE, true);
 
       final docRef = userRF.doc(auth.currentUser!.uid);
       docRef.get().then((DocumentSnapshot doc) {
@@ -119,8 +117,7 @@ class AuthController extends GetxController {
       },
     );
     snackBarWidget("About User", "Logout Successfully", success: true);
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setBool("login", false);
+    await StorageServices.to.setBool(LOGIN_STATE, false);
     Get.offAllNamed("/login");
   }
 
