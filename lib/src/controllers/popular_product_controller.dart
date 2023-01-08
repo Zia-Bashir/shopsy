@@ -132,4 +132,11 @@ class PopularProductController extends GetxController {
   int get getQuantity {
     return quantity.value;
   }
+
+  resetValue() {
+    quantity.value = 1;
+    selectedImage.value = 0;
+    selectedColor.value = 0;
+    update();
+  }
 }

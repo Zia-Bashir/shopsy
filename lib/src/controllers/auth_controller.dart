@@ -13,6 +13,7 @@ class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   late Rx<User?> _user;
   Rx<User?> get user => _user;
+  final isVerifiedMail = false.obs;
 
   @override
   void onReady() {
@@ -82,7 +83,7 @@ class AuthController extends GetxController {
 
   login(String email, password) async {
     try {
-      Get.showOverlay(
+      await Get.showOverlay(
         loadingWidget: const Loading(),
         asyncFunction: () async {
           return await auth.signInWithEmailAndPassword(
@@ -149,6 +150,7 @@ class AuthController extends GetxController {
   verifyEmail() async {
     try {
       User? user = auth.currentUser!;
+
       if (!(user.emailVerified)) {
         Get.showOverlay(
           loadingWidget: const Loading(),
@@ -156,14 +158,30 @@ class AuthController extends GetxController {
             return await user.sendEmailVerification();
           },
         );
-        userRF.doc(auth.currentUser!.uid).update({
-          "emailVerfied": true,
-        });
-        snackBarWidget("About Email", "Verify email sent successfully",
-            success: true);
       }
+
+      var mail = user.email;
+      print(" User Email $mail");
+      snackBarWidget(
+          "Check your Inbox", "Verify email has been sent successfully",
+          success: true);
+      Future.delayed(const Duration(seconds: 30), () {
+        auth.currentUser!.reload();
+        if (user.emailVerified) {
+          userRF.doc(auth.currentUser!.uid).update({
+            "emailVerfied": true,
+          });
+          isVerifiedMail.value = true;
+          print("Verifeidddddddddddd");
+          update();
+        }
+      });
     } catch (e) {
       snackBarWidget("About Email", e.toString(), success: false);
     }
+  }
+
+  emailVerified() async {
+    User? user = auth.currentUser!;
   }
 }

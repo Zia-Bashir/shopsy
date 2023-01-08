@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shopsy/src/models/profile_model.dart';
-import 'package:shopsy/src/screens/profile/components/profile_image_container.dart';
 import 'package:shopsy/src/screens/profile/components/profile_list_tile.dart';
+import 'package:shopsy/src/utils/app_colors.dart';
+import 'package:shopsy/src/utils/app_sizes.dart';
 import 'package:shopsy/src/utils/app_text.dart';
 import 'package:shopsy/src/widgets/mytext_widget.dart';
 
@@ -25,7 +26,17 @@ class ProfileScreen extends StatelessWidget {
 
             //* Image Container
 
-            const ProfileImageContainer(),
+            Padding(
+              padding: EdgeInsets.only(top: 50.h, bottom: 40.h),
+              child: Container(
+                height: profilePicContainerHeight,
+                width: profilePicContainerWidth,
+                decoration: BoxDecoration(
+                  color: AppColors.profilePicContainerBg,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+              ),
+            ),
 
             //* List Tile
 

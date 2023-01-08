@@ -44,3 +44,7 @@ const String homePromoBanner = "assets/images/home_images/Banner.png";
 const String mobileSpecial = "assets/images/home_images/mobile.png";
 const String ps5Controller = "assets/images/home_images/controller.png";
 const String ps5Controller2 = "assets/images/home_images/controller-2.png";
+
+//? -- Home Screen Images
+
+const String profileLogo = "assets/images/profile/logo.jpg";

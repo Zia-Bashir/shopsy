@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:shopsy/src/screens/favourite/favourite_products_screen.dart';
 import 'package:shopsy/src/screens/home/home_screen.dart';
+import 'package:shopsy/src/screens/my%20account/my_account_screen.dart';
 import 'package:shopsy/src/screens/profile/profile_screen.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 import 'package:shopsy/src/utils/my_icons_icons.dart';
@@ -22,7 +23,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     const HomeScreen(),
     const FavouriteProductsScreen(),
     Container(),
-    const ProfileScreen(),
+    const MyAccountScreen(),
   ];
 
   @override

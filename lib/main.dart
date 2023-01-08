@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           getPages: Approutes.routes,
         );
       },
-      //child: const FavouriteProductsScreen(),
+      //child: const MyAccountScreen(),
     );
   }
 }

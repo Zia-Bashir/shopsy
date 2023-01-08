@@ -5,6 +5,8 @@ final firestore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 
 final authCurrentUser = auth.currentUser!.uid;
+final authCurrentUserMail = auth.currentUser!.email;
+final authCurrentUserVerifiedMail = auth.currentUser!.emailVerified;
 final userRF = firestore.collection("UserData");
 final popularProductsRF = firestore.collection("PopularProducts");
 final favouriteProductRF = firestore.collection("FavouriteProducts");

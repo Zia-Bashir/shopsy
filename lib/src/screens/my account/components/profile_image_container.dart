@@ -11,7 +11,7 @@ class ProfileImageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 50.h, bottom: 40.h),
+      padding: EdgeInsets.only(top: 20.h, bottom: 30.h),
       child: Container(
         height: profilePicContainerHeight,
         width: profilePicContainerWidth,
@@ -23,8 +23,8 @@ class ProfileImageContainer extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              right: -10.w,
-              bottom: -10.h,
+              right: -7.w,
+              bottom: -7.h,
               child: Container(
                 height: profilePicUploadContainerHeight,
                 width: profilePicUploadContainerWidth,

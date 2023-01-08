@@ -21,8 +21,8 @@ double loginSuccessSizeWidth = 375.w;
 
 //* Profile Picture Container Size
 
-double profilePicContainerHeight = 115.h;
-double profilePicContainerWidth = 115.w;
-double profilePicUploadContainerHeight = 46.h;
-double profilePicUploadContainerWidth = 46.w;
+double profilePicContainerHeight = 100.h;
+double profilePicContainerWidth = 100.w;
+double profilePicUploadContainerHeight = 30.h;
+double profilePicUploadContainerWidth = 30.w;
 double listTileHeight = 66.h;
