@@ -95,8 +95,6 @@ class ImagePickerController extends GetxController {
           return await uploadIamgeIntoCollection(image!);
         },
       );
-      Fluttertoast.showToast(
-          msg: "Image Uploaded", backgroundColor: Colors.green);
 
       update();
     } else {
@@ -120,6 +118,8 @@ class ImagePickerController extends GetxController {
       userRF.doc(authCurrentUser).update({
         'profileImg': url,
       });
+      Fluttertoast.showToast(
+          msg: "Image Uploaded", backgroundColor: Colors.green);
       update();
     } catch (e) {
       Fluttertoast.showToast(msg: "Image uploading Failed");

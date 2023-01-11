@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shopsy/firebase_options.dart';
 import 'package:shopsy/src/routes/app_routes.dart';
+import 'package:shopsy/src/services/storage_services.dart';
 import 'package:shopsy/src/theme/theme.dart';
 
 import './src/helper/dependicies.dart' as dep;
@@ -13,7 +14,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  //? --- Getx Dependecy Injection ---
   dep.initState();
+
+  //* --- Storage Services ---
+  StorageServices.to.init();
 
   runApp(const MyApp());
 }

@@ -24,7 +24,7 @@ class ChangePassword extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               //* --- Back Button/ SignUp Text
-              ButtonWithTextWidget(style: style, text: tForgetPassword),
+              ButtonWithTextWidget(style: style, text: tChangePassword),
               //* ---- Forget Password Text
 
               Column(

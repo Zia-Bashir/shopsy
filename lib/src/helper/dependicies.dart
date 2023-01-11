@@ -13,5 +13,4 @@ void initState() {
   Get.put(PopularProductController());
   Get.put(StorageServices());
   Get.put(ImagePickerController());
-  StorageServices.to.init();
 }

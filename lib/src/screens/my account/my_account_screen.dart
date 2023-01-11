@@ -4,14 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shopsy/src/base/loading_widget.dart';
 import 'package:shopsy/src/controllers/auth_controller.dart';
+import 'package:shopsy/src/controllers/image_picker_controller.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/screens/my%20account/components/orange_divider.dart';
 import 'package:shopsy/src/screens/my%20account/components/profile_header_lable.dart';
+import 'package:shopsy/src/screens/profile/profile_screen.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 import 'package:shopsy/src/utils/app_images.dart';
 import 'package:shopsy/src/widgets/mytext_widget.dart';
 
-class MyAccountScreen extends GetView {
+class MyAccountScreen extends StatelessWidget {
   const MyAccountScreen({super.key});
 
   @override
@@ -70,34 +72,37 @@ class MyAccountScreen extends GetView {
                           child: Row(
                             children: [
                               //* --- Image Container ---
-                              GestureDetector(
-                                onTap: () {
-                                  controller.pickerBottomSheet(context);
-                                },
-                                child: Container(
-                                  height: 100.h,
-                                  width: 100.w,
-                                  decoration: snapshot.data!['profileImg'] ==
-                                          null
-                                      ? const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color:
-                                              AppColors.profilePicContainerBg,
-                                          image: DecorationImage(
-                                            image: AssetImage(ps5Controller),
-                                          ))
-                                      : BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color:
-                                              AppColors.profilePicContainerBg,
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                snapshot.data!['profileImg']),
+                              GetBuilder<ImagePickerController>(
+                                  builder: (controller) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    controller.pickerBottomSheet(context);
+                                  },
+                                  child: Container(
+                                    height: 100.h,
+                                    width: 100.w,
+                                    decoration: snapshot.data!['profileImg'] ==
+                                            null
+                                        ? const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color:
+                                                AppColors.profilePicContainerBg,
+                                            image: DecorationImage(
+                                              image: AssetImage(ps5Controller),
+                                            ))
+                                        : BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color:
+                                                AppColors.profilePicContainerBg,
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  snapshot.data!['profileImg']),
+                                            ),
                                           ),
-                                        ),
-                                ),
-                              ),
+                                  ),
+                                );
+                              }),
 
                               Padding(
                                 padding: EdgeInsets.only(left: 25.w),
@@ -225,7 +230,9 @@ class MyAccountScreen extends GetView {
                                       style: style,
                                       title: "Edit Profile",
                                       icon: Icons.edit,
-                                      onTap: () {}),
+                                      onTap: () {
+                                        Get.to(() => const ProfileScreen());
+                                      }),
                                   const OrangeDivider(),
                                   AccountSettingListTile(
                                       style: style,

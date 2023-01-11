@@ -15,6 +15,12 @@ class PopularProductController extends GetxController {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  @override
+  void onInit() {
+    resetValue();
+    super.onInit();
+  }
+
   displayImage(int index) {
     selectedImage.value = index;
     update();
@@ -135,8 +141,11 @@ class PopularProductController extends GetxController {
 
   resetValue() {
     quantity.value = 1;
+
     selectedImage.value = 0;
     selectedColor.value = 0;
+    print("reset______________________________________");
+    print(quantity.value);
     update();
   }
 }
