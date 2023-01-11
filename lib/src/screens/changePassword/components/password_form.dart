@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:shopsy/src/controllers/auth_controller.dart';
 import 'package:shopsy/src/extension/form_validate.dart';
-import 'package:shopsy/src/screens/login/login_screen.dart';
 import 'package:shopsy/src/utils/app_sizes.dart';
 import 'package:shopsy/src/utils/app_text.dart';
 import 'package:shopsy/src/widgets/my_elevated_button_widget.dart';
@@ -61,7 +60,9 @@ class _PasswordFormState extends State<PasswordForm> {
           MyElevatedButtonWidget(
               ontap: () {
                 if (_formKey.currentState!.validate()) {
-                  Get.to(() => const LoginScreen());
+                  AuthController.instance
+                      .changePassword(passwordController.text.trim());
+                  // Get.to(() => const LoginScreen());
                 }
               },
               text: tContinue),

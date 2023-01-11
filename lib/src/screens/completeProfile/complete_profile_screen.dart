@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shopsy/src/screens/complete%20profile/components/complete_signup_form.dart';
+import 'package:shopsy/src/screens/completeProfile/components/complete_signup_form.dart';
 import 'package:shopsy/src/utils/app_sizes.dart';
 import 'package:shopsy/src/utils/app_text.dart';
 import 'package:shopsy/src/widgets/mytext_widget.dart';

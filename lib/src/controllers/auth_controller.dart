@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/services/storage_services.dart';
@@ -43,6 +45,7 @@ class AuthController extends GetxController {
                       "profileImg": null,
                       "profileUpdated": false,
                       "emailVerfied": false,
+                      "status": "pending",
                     }),
                   });
         },
@@ -183,5 +186,25 @@ class AuthController extends GetxController {
 
   emailVerified() async {
     User? user = auth.currentUser!;
+  }
+
+  //* -- Change Password
+
+  changePassword(String newPassword) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    try {
+      Get.showOverlay(
+        loadingWidget: const Loading(),
+        asyncFunction: () async {
+          return await user?.updatePassword(newPassword);
+        },
+      );
+      Fluttertoast.showToast(
+          msg: "Password has been Changed", backgroundColor: Colors.green);
+      Get.back();
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Error", backgroundColor: Colors.red);
+    }
   }
 }

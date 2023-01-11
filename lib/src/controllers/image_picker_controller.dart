@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shopsy/src/base/loading_widget.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 
@@ -70,7 +71,12 @@ class ImagePickerController extends GetxController {
       XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
       File? imagePath = File(pickedFile!.path);
       image = imagePath;
-      uploadIamgeIntoCollection(image!);
+      Get.showOverlay(
+        loadingWidget: const Loading(),
+        asyncFunction: () async {
+          return await uploadIamgeIntoCollection(image!);
+        },
+      );
       update();
     } else {
       Fluttertoast.showToast(msg: "Camera Permission is required");
@@ -83,31 +89,40 @@ class ImagePickerController extends GetxController {
       XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
       File? imagePath = File(pickedFile!.path);
       image = imagePath;
-      //uploadIamgeIntoCollection(image!);
+      Get.showOverlay(
+        loadingWidget: const Loading(),
+        asyncFunction: () async {
+          return await uploadIamgeIntoCollection(image!);
+        },
+      );
+      Fluttertoast.showToast(
+          msg: "Image Uploaded", backgroundColor: Colors.green);
+
       update();
     } else {
-      Fluttertoast.showToast(msg: "Storage Permission is required");
+      Fluttertoast.showToast(msg: "Gallery Permission is required");
     }
   }
 
   uploadIamgeIntoCollection(File image) async {
-    print("uploading....");
     try {
-      Reference reference = storage.ref().child('abc').child("/image");
+      Reference reference = storage
+          .ref('userProfileImages')
+          .child(authCurrentUserMail!)
+          .child("profileImage/");
 
       UploadTask uploadTask = reference.putFile(image);
       await Future.value(uploadTask).onError((error, stackTrace) {
         return uploadTask;
       });
-      print("upload Done");
       var url = await reference.getDownloadURL();
-      print("url :  $url");
       //* -- add Picture into UserData Collection
       userRF.doc(authCurrentUser).update({
         'profileImg': url,
       });
+      update();
     } catch (e) {
-      print("catch e: $e");
+      Fluttertoast.showToast(msg: "Image uploading Failed");
     }
   }
 }

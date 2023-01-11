@@ -8,6 +8,7 @@ const String tPassword = "Password";
 const String tFavourite = "Favourite";
 const String tForgetPassword = "Forget Password";
 const String tConfirmPassword = "Confirm Password";
+const String tChangePassword = "Change Password";
 const String tSignInWithGoogle = "Sign-In with Google";
 
 //= -- On Boarding Text

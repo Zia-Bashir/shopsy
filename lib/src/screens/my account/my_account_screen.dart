@@ -4,13 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shopsy/src/base/loading_widget.dart';
 import 'package:shopsy/src/controllers/auth_controller.dart';
-import 'package:shopsy/src/controllers/image_picker_controller.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
+import 'package:shopsy/src/screens/my%20account/components/orange_divider.dart';
+import 'package:shopsy/src/screens/my%20account/components/profile_header_lable.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 import 'package:shopsy/src/utils/app_images.dart';
 import 'package:shopsy/src/widgets/mytext_widget.dart';
 
-class MyAccountScreen extends StatelessWidget {
+class MyAccountScreen extends GetView {
   const MyAccountScreen({super.key});
 
   @override
@@ -18,132 +19,128 @@ class MyAccountScreen extends StatelessWidget {
     var style = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: CustomScrollView(slivers: [
-        SliverAppBar(
-          centerTitle: true,
-          pinned: true,
-          elevation: 0,
-          backgroundColor: Colors.white,
-          expandedHeight: 150.h,
-          flexibleSpace: LayoutBuilder(
-            builder: (context, constraints) {
-              return FlexibleSpaceBar(
+
+      //* --- Body Future Builder ---
+      body: FutureBuilder<DocumentSnapshot>(
+        future: userRF.doc(authCurrentUser).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Loading(),
+            );
+            //* --- Data ---
+          } else {
+            String firstName = snapshot.data!['firstName'].toString();
+            String lastName = snapshot.data!['lastName'].toString();
+            String fullName = "$firstName " "$lastName";
+            return CustomScrollView(slivers: [
+              //* --- Silver App Bar ---
+              SliverAppBar(
                 centerTitle: true,
-                title: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: constraints.biggest.height <= 150.h ? 1 : 0,
-                  child: SizedBox(
-                    width: double.maxFinite,
-                    child: Text(
-                      "My Account",
-                      style: style.headline5,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                background: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Color.fromARGB(255, 212, 69, 17),
-                      AppColors.mainColor,
-                    ]),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 20.h, left: 24.w),
-                    child: FutureBuilder(
-                      future: userRF.doc(authCurrentUser).get(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Loading(
-                            isContainer: false,
-                          );
-                        } else {
-                          return Row(
+                pinned: true,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                expandedHeight: 150.h,
+                flexibleSpace: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 200),
+                        opacity: constraints.biggest.height <= 150.h ? 1 : 0,
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          child: Text(
+                            "My Account",
+                            style: style.headline5,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      background: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Color.fromARGB(255, 212, 69, 17),
+                            AppColors.mainColor,
+                          ]),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20.h, left: 24.w),
+                          child: Row(
                             children: [
-                              //* --- Image Container
-                              GetBuilder<ImagePickerController>(
-                                  builder: (controller) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    controller.pickerBottomSheet(context);
-                                  },
-                                  child: Container(
-                                    height: 100.h,
-                                    width: 100.w,
-                                    decoration: snapshot.data['profileImg'] ==
-                                            null
-                                        ? const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                AppColors.profilePicContainerBg,
-                                            image: DecorationImage(
-                                              image: AssetImage(ps5Controller),
-                                            ))
-                                        : BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                AppColors.profilePicContainerBg,
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                  snapshot.data['profileImg']),
-                                            )),
-                                  ),
-                                );
-                              }),
+                              //* --- Image Container ---
+                              GestureDetector(
+                                onTap: () {
+                                  controller.pickerBottomSheet(context);
+                                },
+                                child: Container(
+                                  height: 100.h,
+                                  width: 100.w,
+                                  decoration: snapshot.data!['profileImg'] ==
+                                          null
+                                      ? const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:
+                                              AppColors.profilePicContainerBg,
+                                          image: DecorationImage(
+                                            image: AssetImage(ps5Controller),
+                                          ))
+                                      : BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:
+                                              AppColors.profilePicContainerBg,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                snapshot.data!['profileImg']),
+                                          ),
+                                        ),
+                                ),
+                              ),
+
                               Padding(
                                 padding: EdgeInsets.only(left: 25.w),
                                 child: MyTextWidget(
-                                    title: snapshot.data['firstName'],
+                                    title: fullName,
                                     style: style.headline2
                                         ?.copyWith(color: Colors.white)),
                               )
                             ],
-                          );
-                        }
-                      },
-                    ),
-                  ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              Container(
-                color: Colors.grey.shade300,
+              ),
+
+              //* --- Silver Box ---
+              SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 150,
-                      child: Image(image: AssetImage(profileLogo)),
-                    ),
-                    ProfileHeaderLable(
-                      style: style,
-                      label: "Account Info.",
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        height: 260.h,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16)),
-                        child: FutureBuilder<DocumentSnapshot>(
-                          future: userRF.doc(authCurrentUser).get(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if (!snapshot.hasData) {
-                              return const SizedBox(
-                                width: double.maxFinite,
-                                child: Loading(
-                                  isContainer: false,
-                                ),
-                              );
-                            } else {
-                              return Column(
+                    Container(
+                      color: Colors.grey.shade300,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 150,
+                            child: Image(image: AssetImage(profileLogo)),
+                          ),
+
+                          //* --- Account Info Lable
+                          ProfileHeaderLable(
+                            style: style,
+                            label: "Account Info.",
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 260.h,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
                                 children: [
                                   ListTile(
                                     leading: const Icon(Icons.mail),
@@ -208,71 +205,56 @@ class MyAccountScreen extends StatelessWidget {
                                         style: style.subtitle1),
                                   ),
                                 ],
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    ProfileHeaderLable(
-                      style: style,
-                      label: "Account Setting",
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        height: 230.h,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16)),
-                        child: Column(
-                          children: [
-                            AccountSettingListTile(
-                                style: style,
-                                title: "Edit Profile",
-                                icon: Icons.edit,
-                                onTap: () {}),
-                            const OrangeDivider(),
-                            AccountSettingListTile(
-                                style: style,
-                                title: "Change Password",
-                                icon: Icons.password,
-                                onTap: () {}),
-                            const OrangeDivider(),
-                            AccountSettingListTile(
-                                style: style,
-                                title: "Logout",
-                                icon: Icons.logout,
-                                onTap: () {
-                                  AuthController.instance.signOut();
-                                }),
-                          ],
-                        ),
+                              ),
+                            ),
+                          ),
+                          ProfileHeaderLable(
+                            style: style,
+                            label: "Account Setting",
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 230.h,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: [
+                                  AccountSettingListTile(
+                                      style: style,
+                                      title: "Edit Profile",
+                                      icon: Icons.edit,
+                                      onTap: () {}),
+                                  const OrangeDivider(),
+                                  AccountSettingListTile(
+                                      style: style,
+                                      title: "Change Password",
+                                      icon: Icons.password,
+                                      onTap: () {
+                                        Get.toNamed("/changePassword");
+                                      }),
+                                  const OrangeDivider(),
+                                  AccountSettingListTile(
+                                      style: style,
+                                      title: "Logout",
+                                      icon: Icons.logout,
+                                      onTap: () {
+                                        AuthController.instance.signOut();
+                                      }),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        )
-      ]),
-    );
-  }
-}
-
-class OrangeDivider extends StatelessWidget {
-  const OrangeDivider({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40.w),
-      child: const Divider(
-        color: AppColors.mainColor,
-        thickness: 1,
+              )
+            ]);
+          }
+        },
       ),
     );
   }
@@ -299,53 +281,6 @@ class AccountSettingListTile extends StatelessWidget {
       child: ListTile(
         leading: Icon(icon),
         title: Text(title, style: style.subtitle2),
-      ),
-    );
-  }
-}
-
-class ProfileHeaderLable extends StatelessWidget {
-  const ProfileHeaderLable({
-    Key? key,
-    required this.style,
-    required this.label,
-  }) : super(key: key);
-
-  final TextTheme style;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40.h,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Spacer(),
-          SizedBox(
-            width: 50.w,
-            child: const Divider(
-              color: AppColors.mainColor,
-              thickness: 1,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: MyTextWidget(
-              title: label,
-              style: style.headline2
-                  ?.copyWith(fontSize: 20.sp, fontWeight: FontWeight.w600),
-            ),
-          ),
-          SizedBox(
-            width: 50.w,
-            child: const Divider(
-              color: AppColors.mainColor,
-              thickness: 1,
-            ),
-          ),
-          const Spacer(),
-        ],
       ),
     );
   }

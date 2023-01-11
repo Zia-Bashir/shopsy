@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shopsy/src/screens/cart/cart_screen.dart';
-import 'package:shopsy/src/screens/complete%20profile/complete_profile_screen.dart';
-import 'package:shopsy/src/screens/forget%20password/forget_password_confirm.dart';
+import 'package:shopsy/src/screens/completeProfile/complete_profile_screen.dart';
+import 'package:shopsy/src/screens/changePassword/change_password.dart';
 import 'package:shopsy/src/screens/forget%20password/forget_password_screen.dart';
 import 'package:shopsy/src/screens/home/home_screen.dart';
 import 'package:shopsy/src/screens/login/login_screen.dart';
@@ -56,8 +56,8 @@ class Approutes {
 
     //= -- Forget Confirm Screen Route
     GetPage(
-      name: "/forgetconfirm",
-      page: () => const ForgetPasswordConfirmScreen(),
+      name: "/changePassword",
+      page: () => const ChangePassword(),
     ),
 
     //= -- Home Screen Route

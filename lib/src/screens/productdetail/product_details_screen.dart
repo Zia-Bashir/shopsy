@@ -25,9 +25,6 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print("page id -------------$pageId");
-
-    // print("Product id -------------$productId");
     var style = Theme.of(context).textTheme;
     PopularProductController popularProductController =
         PopularProductController();
@@ -35,7 +32,7 @@ class ProductDetailsScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         popularProductController.resetValue();
-        print(true);
+        print("true");
         return true;
       },
       child: Scaffold(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopsy/src/controllers/auth_controller.dart';
-import 'package:shopsy/src/screens/complete%20profile/components/number_picker.dart';
+import 'package:shopsy/src/screens/completeProfile/components/number_picker.dart';
 import 'package:shopsy/src/utils/app_sizes.dart';
 import 'package:shopsy/src/utils/app_text.dart';
 import 'package:shopsy/src/widgets/my_elevated_button_widget.dart';
