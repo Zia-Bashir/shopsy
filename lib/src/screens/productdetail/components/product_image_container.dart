@@ -29,6 +29,7 @@ class ProductImageContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              //* --- Image ---
               Obx(
                 (() => Container(
                       height: 160.h,
@@ -49,29 +50,33 @@ class ProductImageContainer extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Obx((() => GestureDetector(
-                          onTap: () {
-                            controller.displayImage(index);
-                          },
-                          child: Container(
-                            height: 48.h,
-                            width: 48.w,
-                            margin: EdgeInsets.only(right: 10.w),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.r),
-                              border: Border.all(
-                                  color: controller.selectedImage.value == index
-                                      ? AppColors.mainColor
-                                      : Colors.transparent),
-                              image: DecorationImage(
-                                  scale: 15,
-                                  image: NetworkImage(
-                                      snapshot.data!.docs[index]['image']),
-                                  fit: BoxFit.scaleDown),
+                    return Obx(
+                      //* --- Select Image ---
+                      (() => GestureDetector(
+                            onTap: () {
+                              controller.displayImage(index);
+                            },
+                            child: Container(
+                              height: 48.h,
+                              width: 48.w,
+                              margin: EdgeInsets.only(right: 10.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.r),
+                                border: Border.all(
+                                    color:
+                                        controller.selectedImage.value == index
+                                            ? AppColors.mainColor
+                                            : Colors.transparent),
+                                image: DecorationImage(
+                                    scale: 15,
+                                    image: NetworkImage(
+                                        snapshot.data!.docs[index]['image']),
+                                    fit: BoxFit.scaleDown),
+                              ),
                             ),
-                          ),
-                        )));
+                          )),
+                    );
                   },
                 ),
               ),

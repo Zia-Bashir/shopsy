@@ -21,11 +21,13 @@ class PopularProductController extends GetxController {
     super.onInit();
   }
 
+  //= ---- Display Image Selection -----
   displayImage(int index) {
     selectedImage.value = index;
     update();
   }
 
+  //= ---- Color Selection -----
   selectColor(int index) {
     selectedColor.value = index;
     update();
@@ -141,11 +143,8 @@ class PopularProductController extends GetxController {
 
   resetValue() {
     quantity.value = 1;
-
     selectedImage.value = 0;
     selectedColor.value = 0;
-    print("reset______________________________________");
-    print(quantity.value);
     update();
   }
 }
