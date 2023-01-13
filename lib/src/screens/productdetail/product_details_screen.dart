@@ -95,7 +95,7 @@ class ProductDetailsScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //* -- Color and Product Selection Getx Builder
+              //* -- Color and Product Selection
               Padding(
                 padding: EdgeInsets.only(top: 24.h, right: 24.w, left: 24.w),
                 child: Row(
@@ -125,10 +125,16 @@ class ProductDetailsScreen extends StatelessWidget {
                                 itemBuilder: (BuildContext context, int index) {
                                   String productColor =
                                       snapshot.data!.docs[index]['color'];
+                                  //* -- Product Select Color
+
+                                  controller
+                                      .productSelectedColor.value = snapshot
+                                          .data!
+                                          .docs[controller.selectedColor.value]
+                                      ['color'];
                                   return Obx((() => GestureDetector(
                                         onTap: () {
                                           controller.selectColor(index);
-
                                           //* -- Product Select Color
 
                                           controller
@@ -239,12 +245,9 @@ class ProductDetailsScreen extends StatelessWidget {
                       MyElevatedButtonWidget(
                         text: "Add to Cart",
                         ontap: () {
-                          controller.addedToCart(
-                              productId!,
-                              pageId,
-                              controller.productSelectedColor.value,
-                              controller.getQuantity);
-                          print("Color ${controller.productSelectedColor}");
+                          controller.addedToCart(productId!, pageId,
+                              controller.getColor, controller.getQuantity);
+                          print("Color-------- ${controller.getColor}");
                           showToast(context,
                               const SuccessToast(msg: "Added to Cart"));
                         },

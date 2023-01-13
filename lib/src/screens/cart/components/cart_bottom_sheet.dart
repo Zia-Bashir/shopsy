@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shopsy/src/controllers/popular_product_controller.dart';
+import 'package:shopsy/src/controllers/cart_controller.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 import 'package:shopsy/src/utils/app_text.dart';
 import 'package:shopsy/src/utils/my_icons_icons.dart';
@@ -9,12 +9,13 @@ import 'package:shopsy/src/widgets/my_elevated_button_widget.dart';
 import 'package:shopsy/src/widgets/mytext_widget.dart';
 
 class CartBottomSheet extends StatelessWidget {
-  const CartBottomSheet({
+  CartBottomSheet({
     Key? key,
     required this.style,
   }) : super(key: key);
 
   final TextTheme style;
+  final cartController2 = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -95,12 +96,12 @@ class CartBottomSheet extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  GetBuilder<PopularProductController>(builder: (controller) {
+                  GetBuilder<CartController>(builder: ((cartController) {
                     return MyTextWidget(
-                        title: "\$${controller.productTotalAmount.toString()}",
+                        title: cartController.productTotalAmount.toString(),
                         style: style.subtitle1?.copyWith(
                             color: Colors.black, fontWeight: FontWeight.w600));
-                  })
+                  })),
                 ],
               ),
               SizedBox(

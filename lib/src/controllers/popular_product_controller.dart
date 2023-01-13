@@ -5,12 +5,11 @@ import 'package:get/get.dart';
 import '../firebase/firebase_references.dart';
 
 class PopularProductController extends GetxController {
-  final ratingValue = '0'.obs;
+  RxString ratingValue = '0'.obs;
   RxInt selectedImage = 0.obs;
   RxInt selectedColor = 0.obs;
   RxBool isFavourite = false.obs;
   RxString productSelectedColor = "".obs;
-
   RxInt quantity = 1.obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -33,14 +32,13 @@ class PopularProductController extends GetxController {
     update();
   }
 
-  getProductRating(String? proId) async {
-    await popularProductsRF.doc(proId).get().then((DocumentSnapshot doc) {
-      ratingValue.value = doc['rating'].toString();
-      update();
-    });
+  //= ---- Get Color -----
+  String get getColor {
+    return productSelectedColor.value;
   }
 
-  getProductImage(String? proId) async {
+//= ---- Get Product Rating -----
+  getProductRating(String? proId) async {
     await popularProductsRF.doc(proId).get().then((DocumentSnapshot doc) {
       ratingValue.value = doc['rating'].toString();
       update();
@@ -95,7 +93,7 @@ class PopularProductController extends GetxController {
     });
   }
 
-  //= ---- Remove from Favourite -----
+  //= ---- Remove from Cart -----
   reomoveFromCart(String productId) {
     return cartProductRF
         .doc(authCurrentUser)
@@ -104,21 +102,7 @@ class PopularProductController extends GetxController {
         .delete();
   }
 
-  //= ---- Total Amount of Cart Products -----
-  double get productTotalAmount {
-    double totalAmount = 0;
-    final productRf = cartProductRF.doc(authCurrentUser).collection("products");
-    productRf.get().then((snapshot) {
-      for (var doc in snapshot.docs) {
-        double price = doc.data()['price'];
-        totalAmount += price;
-      }
-      print('Total price: ${totalAmount.toString()}');
-    });
-
-    return totalAmount;
-  }
-
+  //= ---- Set Quantity -----
   void setQuantity(bool isIncrement) {
     if (isIncrement) {
       if (quantity >= 10) {
@@ -137,10 +121,12 @@ class PopularProductController extends GetxController {
     update();
   }
 
+  //= ---- Get Quantity -----
   int get getQuantity {
     return quantity.value;
   }
 
+  //= ---- Reset Values -----
   resetValue() {
     quantity.value = 1;
     selectedImage.value = 0;

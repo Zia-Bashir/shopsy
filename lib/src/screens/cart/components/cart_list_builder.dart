@@ -68,6 +68,8 @@ class CartListBuilder extends StatelessWidget {
                       //? ---- Parent Document SnapShot -----
                       DocumentSnapshot parentDocument =
                           snapshot.data!.docs[productIndex];
+                      String selectedColor =
+                          cartDocument['productColor'].toString();
 
                       //? ---- Dismissible fro Cart -----
                       return Dismissible(
@@ -168,9 +170,17 @@ class CartListBuilder extends StatelessWidget {
                                       Container(
                                         height: 14.h,
                                         width: 14.w,
-                                        decoration: const BoxDecoration(
-                                            color: Colors.red,
-                                            shape: BoxShape.circle),
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color(int.parse(selectedColor)),
+                                            shape: BoxShape.circle,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: const Offset(2, 5),
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  blurRadius: 3.r)
+                                            ]),
                                       ),
                                       SizedBox(
                                         height: 5.h,
