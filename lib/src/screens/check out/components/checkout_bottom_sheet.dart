@@ -8,14 +8,14 @@ import 'package:shopsy/src/utils/my_icons_icons.dart';
 import 'package:shopsy/src/widgets/my_elevated_button_widget.dart';
 import 'package:shopsy/src/widgets/mytext_widget.dart';
 
-class CartBottomSheet extends StatelessWidget {
-  CartBottomSheet({
+class CheckOutBottomSheet extends StatelessWidget {
+  CheckOutBottomSheet({
     Key? key,
     required this.style,
   }) : super(key: key);
 
   final TextTheme style;
-  final cartController = Get.find<CartController>();
+  final cartController2 = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +96,10 @@ class CartBottomSheet extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  GetBuilder<CartController>(builder: ((controller) {
+                  GetBuilder<CartController>(builder: ((cartController) {
                     return MyTextWidget(
-                        title: "", //controller.productTotalAmount.toString()
+                        title:
+                            "", //cartController.productTotalAmount.toString()
                         style: style.subtitle1?.copyWith(
                             color: Colors.black, fontWeight: FontWeight.w600));
                   })),
@@ -106,11 +107,7 @@ class CartBottomSheet extends StatelessWidget {
               ),
               SizedBox(
                 width: 190.w,
-                child: MyElevatedButtonWidget(
-                    text: "CheckOut",
-                    ontap: () {
-                      cartController.cartLength();
-                    }),
+                child: MyElevatedButtonWidget(text: "Pay Now", ontap: () {}),
               ),
             ],
           ),

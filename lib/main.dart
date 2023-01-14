@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           getPages: Approutes.routes,
         );
       },
-      //child: const MyAccountScreen(),
+      // child: const CheckOutScreen(),
     );
   }
 }

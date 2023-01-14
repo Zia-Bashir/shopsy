@@ -90,3 +90,13 @@ const String tProductDescription =
 
 const String tCart = "Your Cart";
 const String tVoucher = "Add voucher code";
+
+//= -- CheckOut Screen Text
+
+const String tCheckOut = "Check Out";
+const String tViewAll = "View All";
+const String tYourAddress = "Your Address";
+const String tEditAddress = "Edit Address";
+const String tShippingOption = "Shipping Options";
+const String tChooseService = "Choose Service";
+const String tPaymentMeyhod = "Payment Methods";

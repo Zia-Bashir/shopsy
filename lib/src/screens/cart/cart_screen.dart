@@ -16,89 +16,88 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var style = Theme.of(context).textTheme;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            //* --- Cart Text with Back Button
-            Padding(
-              padding: EdgeInsets.only(top: 20.h, left: 20.w, right: 20.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_sharp,
-                      color: Colors.black,
-                      size: 30.r,
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      MyTextWidget(
-                          title: tCart,
-                          style:
-                              style.headline5?.copyWith(color: Colors.black)),
-                      StreamBuilder(
-                        stream: cartProductRF
-                            .doc(authCurrentUser)
-                            .collection("products")
-                            .snapshots(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (!snapshot.hasData) {
-                            return Container();
-                          } else {
-                            return MyTextWidget(
-                                title:
-                                    "${snapshot.data!.docs.length.toString()} Items",
-                                style: style.subtitle2?.copyWith(
-                                    color: AppColors.secondaryColor));
-                          }
-                        },
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //* --- Cart Text with Back Button
+              Padding(
+                padding: EdgeInsets.only(top: 20.h, left: 20.w, right: 20.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_sharp,
+                        color: Colors.black,
+                        size: 30.r,
                       ),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_sharp,
-                      color: Colors.transparent,
-                      size: 30.r,
                     ),
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(
-              height: 40.h,
-            ),
-
-            //* ---- Cart List Builder
-
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: const CartListBuilder(),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        MyTextWidget(
+                            title: tCart,
+                            style:
+                                style.headline5?.copyWith(color: Colors.black)),
+                        StreamBuilder(
+                          stream: cartProductRF
+                              .doc(authCurrentUser)
+                              .collection("products")
+                              .snapshots(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container();
+                            } else {
+                              return MyTextWidget(
+                                  title:
+                                      "${snapshot.data!.docs.length.toString()} Items",
+                                  style: style.subtitle2?.copyWith(
+                                      color: AppColors.secondaryColor));
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_sharp,
+                        color: Colors.transparent,
+                        size: 30.r,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
 
-      //* ---- Bottom Sheet ----
-      bottomSheet: CartBottomSheet(style: style),
-    );
+              SizedBox(
+                height: 40.h,
+              ),
+
+              //* ---- Cart List Builder
+
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: const CartListBuilder(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        //* ---- Bottom Sheet ----
+        bottomSheet: CartBottomSheet(style: style));
   }
 }

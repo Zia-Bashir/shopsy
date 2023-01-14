@@ -16,6 +16,8 @@ const String pathIcon = "assets/images/icons/path.svg";
 const String questionMarkIcon = "assets/images/icons/questionmark.svg";
 const String personIcon = "assets/images/icons/usericon.svg";
 const String settingIcon = "assets/images/icons/setting.svg";
+const String shippingIcon = "assets/images/icons/shipping.png";
+const String stripeIcon = "assets/images/icons/stripe.png";
 
 //? -- Lottie
 
