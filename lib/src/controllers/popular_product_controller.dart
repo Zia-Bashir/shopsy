@@ -73,11 +73,11 @@ class PopularProductController extends GetxController {
 
 //= ---- Add to Cart -----
   addedToCart(
-    String productId,
-    int productIndex,
-    String productColor,
-    int quantity,
-  ) {
+      {required String productId,
+      required int productIndex,
+      required String productColor,
+      required int quantity,
+      required double productPrice}) {
     return cartProductRF
         .doc(authCurrentUser)
         .collection("products")
@@ -88,18 +88,9 @@ class PopularProductController extends GetxController {
       "productIndex": productIndex,
       "productColor": productColor,
       "quantity": quantity,
-      "price": 49.99,
+      "price": productPrice,
       "isCart": true
     });
-  }
-
-  //= ---- Remove from Cart -----
-  reomoveFromCart(String productId) {
-    return cartProductRF
-        .doc(authCurrentUser)
-        .collection("products")
-        .doc(productId)
-        .delete();
   }
 
   //= ---- Set Quantity -----

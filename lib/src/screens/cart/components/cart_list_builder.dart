@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shopsy/src/base/loading_widget.dart';
-import 'package:shopsy/src/controllers/popular_product_controller.dart';
+import 'package:shopsy/src/controllers/cart_controller.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 import 'package:shopsy/src/utils/app_images.dart';
@@ -21,7 +21,7 @@ class CartListBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var style = Theme.of(context).textTheme;
-    PopularProductController controller = PopularProductController();
+    CartController controller = CartController();
 
     //* ---- Stream Cart Products -----
     return StreamBuilder(
@@ -77,6 +77,7 @@ class CartListBuilder extends StatelessWidget {
                         direction: DismissDirection.endToStart,
                         onDismissed: (direction) {
                           controller.reomoveFromCart(productId);
+                          controller.productTotalAmount;
                           showToast(
                               context,
                               const SuccessToast(

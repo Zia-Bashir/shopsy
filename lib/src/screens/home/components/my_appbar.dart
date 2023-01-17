@@ -1,5 +1,6 @@
 import 'package:flutter/Material.dart';
 import 'package:get/get.dart';
+import 'package:shopsy/src/controllers/cart_controller.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/utils/app_text.dart';
 import 'package:shopsy/src/utils/my_icons_icons.dart';
@@ -9,12 +10,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 
 class MyAppBar extends StatelessWidget {
-  const MyAppBar({
+  MyAppBar({
     Key? key,
     required this.style,
   }) : super(key: key);
 
   final TextTheme style;
+  final cartControlle = CartController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,9 @@ class MyAppBar extends StatelessWidget {
               AppBarButtonWidget(
                 ontap: () {
                   Get.toNamed("/cart");
+
+                  //* --- Stream the Latest price of Carted Product
+                  cartControlle.updateCartProductPrice();
                 },
                 icon: MyIcons.cart_icon,
                 child: StreamBuilder(

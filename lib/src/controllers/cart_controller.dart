@@ -9,56 +9,62 @@ import '../firebase/firebase_references.dart';
 class CartController extends GetxController {
   final productPrice = 0.0.obs;
   final productQuantity = 0.obs;
-  final totalAmount = 0.0.obs;
-  List<dynamic> cartDataList = [];
 
-  @override
-  void onInit() {
-    super.onInit();
-    getTotalAmount();
+  //= ---- Remove from Cart -----
+  reomoveFromCart(String productId) {
+    return cartProductRF
+        .doc(authCurrentUser)
+        .collection("products")
+        .doc(productId)
+        .delete();
   }
 
-  getTotalAmount() {
-    productRf.get().then((snapshot) {
-      for (var cartDoc in snapshot.docs) {
-        String productId = cartDoc.data()['productId'];
-        productQuantity.value = cartDoc.data()['quantity'];
-        Map<String, dynamic> cartData = {
-          "productId": productId.toString(),
-          "Quantity": productQuantity.value,
-        };
-        cartDataList.add(cartData);
-        print("cartDataList------------$cartDataList");
-
-        // productRf.doc(productId).get().then((doc) {
-        //   productPrice.value = doc.data()!["price"];
-        //   print("Price------------${productPrice.value}");
-        // });
+  //= ---- Stream and Updated the Latest Price of Carted Products -----
+  updateCartProductPrice() {
+    cartProductCollectionRF.get().then((snapshot) {
+      for (var i = 0; i < snapshot.docs.length; i++) {
+        String productId = snapshot.docs[i]['productId'];
+        popularProductsRF.doc(productId).get().then((DocumentSnapshot doc) {
+          productPrice.value = doc['price'];
+          cartProductCollectionRF.doc(productId).update({
+            "price": productPrice.value,
+          });
+        });
       }
     });
-
-    // Calculate total amount for the product
-    // totalAmount.value = productPrice.value * productQuantity.value;
   }
 
   //= ---- Total Amount of Cart Products -----
-  double get productTotalAmount {
-    double totalAmount = 0.0;
-
-    productRf.get().then((snapshot) {
-      for (var doc in snapshot.docs) {
-        double price = doc.data()['price'];
+  Future<double> get productTotalAmount async {
+    RxDouble totalAmount = 0.0.obs;
+    await cartProductCollectionRF.get().then((snapshot) {
+      for (var i = 0; i < snapshot.docs.length; i++) {
+        double price = snapshot.docs[i]['price'] * snapshot.docs[i]['quantity'];
         print("----------------$price");
-        totalAmount += price;
-        print("----------------$totalAmount");
+        totalAmount.value += price;
       }
       print('Total price: ${totalAmount.toString()}');
     });
-    update();
 
-    return totalAmount;
+    return (totalAmount.value * 100.round() / 100);
   }
 
+  //= ---- Total Amount of Cart Products -----
+  // double get productTotalAmount {
+  //   RxDouble totalAmount = 0.0.obs;
+  //   cartProductCollectionRF.get().then((snapshot) {
+  //     for (var i = 0; i < snapshot.docs.length; i++) {
+  //       double price = snapshot.docs[i]['price'] * snapshot.docs[i]['quantity'];
+  //       print("----------------$price");
+  //       totalAmount.value += price;
+  //     }
+  //     print('Total price: ${totalAmount.toString()}');
+  //   });
+
+  //   return totalAmount.value;
+  // }
+
+  //= ---- Check  Cart Length for Check Out -----
   cartLength() {
     cartProductRF
         .doc(authCurrentUser)
@@ -67,6 +73,7 @@ class CartController extends GetxController {
         .then((QuerySnapshot snapshot) {
       int length = snapshot.docs.length;
       if (length > 0) {
+        //* --- Cart Lenght greater then 0 than go for Checkout
         Get.to(() => const CheckOutScreen());
       } else {
         Fluttertoast.showToast(

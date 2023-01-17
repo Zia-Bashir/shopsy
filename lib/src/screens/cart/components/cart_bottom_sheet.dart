@@ -97,10 +97,16 @@ class CartBottomSheet extends StatelessWidget {
                     height: 10.h,
                   ),
                   GetBuilder<CartController>(builder: ((controller) {
-                    return MyTextWidget(
-                        title: "", //controller.productTotalAmount.toString()
-                        style: style.subtitle1?.copyWith(
-                            color: Colors.black, fontWeight: FontWeight.w600));
+                    return FutureBuilder(
+                      future: controller.productTotalAmount,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return MyTextWidget(
+                            title: "\$ ${snapshot.data.toString()}",
+                            style: style.subtitle1?.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600));
+                      },
+                    );
                   })),
                 ],
               ),

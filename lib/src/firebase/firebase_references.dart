@@ -11,4 +11,5 @@ final userRF = firestore.collection("UserData");
 final popularProductsRF = firestore.collection("PopularProducts");
 final favouriteProductRF = firestore.collection("FavouriteProducts");
 final cartProductRF = firestore.collection("CartProducts");
-final productRf = cartProductRF.doc(authCurrentUser).collection("products");
+final cartProductCollectionRF =
+    cartProductRF.doc(authCurrentUser).collection("products");
