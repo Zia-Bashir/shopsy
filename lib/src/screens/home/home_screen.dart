@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:shopsy/src/controllers/home_controller.dart';
 import 'package:shopsy/src/screens/home/components/my_appbar.dart';
 import 'package:shopsy/src/screens/home/components/popular_products_builder.dart';
 import 'package:shopsy/src/screens/home/components/promo_banner.dart';
@@ -19,6 +21,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var style = Theme.of(context).textTheme;
+    Get.lazyPut(() => HomeController());
     return Scaffold(
       body: SafeArea(
         child: Padding(
