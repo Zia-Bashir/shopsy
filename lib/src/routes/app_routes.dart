@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:shopsy/src/screens/address/address_screen.dart';
 import 'package:shopsy/src/screens/cart/cart_screen.dart';
+import 'package:shopsy/src/screens/check%20out/check_out_screen.dart';
 import 'package:shopsy/src/screens/completeProfile/complete_profile_screen.dart';
 import 'package:shopsy/src/screens/changePassword/change_password.dart';
 import 'package:shopsy/src/screens/forget%20password/forget_password_screen.dart';
@@ -101,6 +103,16 @@ class Approutes {
     GetPage(
       name: "/cart",
       page: () => const CartScreen(),
+    ),
+    //= -- Address Screen Route
+    GetPage(
+      name: "/address",
+      page: () => const AddressScreen(),
+    ),
+    //= -- Checkout Screen Route
+    GetPage(
+      name: "/checkout",
+      page: () => const CheckOutScreen(),
     ),
   ];
 }

@@ -100,3 +100,9 @@ const String tEditAddress = "Edit Address";
 const String tShippingOption = "Shipping Options";
 const String tChooseService = "Choose Service";
 const String tPaymentMeyhod = "Payment Methods";
+
+//= -- Address Screen Text
+const String tFullName = "Full Name";
+const String tNumber = "Phone Number";
+const String tState = "State";
+const String tCountry = "Country";

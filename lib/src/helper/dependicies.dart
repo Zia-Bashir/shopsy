@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shopsy/src/controllers/address_controller.dart';
 import 'package:shopsy/src/controllers/auth_controller.dart';
 import 'package:shopsy/src/controllers/cart_controller.dart';
 import 'package:shopsy/src/controllers/image_picker_controller.dart';
@@ -15,4 +16,5 @@ void initState() {
   Get.put(StorageServices());
   Get.put(ImagePickerController());
   Get.put(CartController());
+  Get.put(AddressController());
 }

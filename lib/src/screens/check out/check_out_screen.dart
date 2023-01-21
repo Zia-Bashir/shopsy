@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shopsy/src/base/loading_widget.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/screens/check%20out/components/checkout_bottom_sheet.dart';
 import 'package:shopsy/src/screens/check%20out/components/checkout_cart_list.dart';
@@ -84,151 +85,195 @@ class CheckOutScreen extends StatelessWidget {
               height: 40.h,
             ),
 
-            //* ---- Cart ---
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //* --- Cart Lable ---
-                CheckOutLable(
-                  onTap: () {
-                    Get.toNamed("/cart");
-                  },
-                  title: tCart,
-                  text: tViewAll,
-                  style: style,
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-
-                //* --- Cart List Builder ---
-                const CheckOutCartList(),
-                SizedBox(
-                  height: 30.h,
-                ),
-              ],
-            ),
-
-            //* --- Your Address ---
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //* --- Address Lable ---
-                CheckOutLable(
-                  onTap: () {
-                    Get.toNamed("/cart");
-                  },
-                  title: tYourAddress,
-                  text: tEditAddress,
-                  style: style,
-                ),
-
-                //* --- Address ---
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: 24.w, right: 24.w, top: 12.h, bottom: 24.h),
-                  child: DottedBorder(
-                    color: const Color.fromARGB(255, 176, 176, 176),
-                    strokeWidth: 1,
-                    borderType: BorderType.RRect,
-                    radius: Radius.circular(10.r),
-                    child: Container(
-                      height: 45.h,
-                      width: double.maxFinite,
-                      color: AppColors.productBGColor,
-                      child: Center(
-                        child: MyTextWidget(
-                            title: "Add Your Address", style: style.headline5),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            //* --- Shipping Options---
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //* --- Shipping Lable ---
-                CheckOutLable(
-                  onTap: () {
-                    Get.toNamed("/cart");
-                  },
-                  title: tShippingOption,
-                  text: tChooseService,
-                  style: style,
-                ),
-
-                //* --- Shipping Selected ---
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: 24.w, right: 24.w, top: 12.h, bottom: 24.h),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 52.h,
-                        width: 66.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.r),
-                          color: AppColors.productBGColor,
-                          image: const DecorationImage(
-                              image: AssetImage(ps5Controller)),
+            //* ---- Scroll ---
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //* ---- Cart ---
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //* --- Cart Lable ---
+                        CheckOutLable(
+                          onTap: () {
+                            Get.toNamed("/cart");
+                          },
+                          title: tCart,
+                          text: tViewAll,
+                          style: style,
                         ),
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          MyTextWidget(
-                              title: "\$ 161.99",
-                              style: style.subtitle1
-                                  ?.copyWith(color: AppColors.mainColor)),
-                          SizedBox(
-                            height: 5.h,
+                        SizedBox(
+                          height: 20.h,
+                        ),
+
+                        //* --- Cart List Builder ---
+                        const CheckOutCartList(),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                      ],
+                    ),
+
+                    //* --- Your Address ---
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //* --- Address Lable ---
+                        CheckOutLable(
+                          onTap: () {
+                            Get.toNamed("/address");
+                          },
+                          title: tYourAddress,
+                          text: tEditAddress,
+                          style: style,
+                        ),
+
+                        //* --- Address ---
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 24.w, right: 24.w, top: 12.h, bottom: 24.h),
+                          child: StreamBuilder(
+                            stream: userRF.doc(authCurrentUser).snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                  child: Loading(
+                                    isContainer: false,
+                                  ),
+                                );
+                              } else {
+                                var deliveryAddress =
+                                    snapshot.data['deliveryAddress'];
+                                if (deliveryAddress == null) {
+                                  return DottedBorder(
+                                    color: const Color.fromARGB(
+                                        255, 176, 176, 176),
+                                    strokeWidth: 1,
+                                    borderType: BorderType.RRect,
+                                    radius: Radius.circular(10.r),
+                                    child: Container(
+                                      height: 45.h,
+                                      width: double.maxFinite,
+                                      color: AppColors.productBGColor,
+                                      child: Center(
+                                        child: MyTextWidget(
+                                            title: "Add Your Address",
+                                            style: style.headline5),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Container(
+                                    width: double.maxFinite,
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                        snapshot.data['deliveryAddress'],
+                                        style: style.subtitle2
+                                            ?.copyWith(fontSize: 14.sp)),
+                                  );
+                                }
+                              }
+                            },
                           ),
-                          MyTextWidget(
-                              title: "Will be received on July 12, 2023",
-                              style: style.subtitle1),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        ),
+                      ],
+                    ),
+                    //* --- Shipping Options---
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //* --- Shipping Lable ---
+                        CheckOutLable(
+                          onTap: () {
+                            Get.toNamed("/cart");
+                          },
+                          title: tShippingOption,
+                          text: tChooseService,
+                          style: style,
+                        ),
 
-            //* --- Payment Method ---
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //* --- Payment Lable ---
-                CheckOutLable(
-                  onTap: () {
-                    Get.toNamed("/cart");
-                  },
-                  title: tPaymentMeyhod,
-                  text: tViewAll,
-                  style: style,
+                        //* --- Shipping Selected ---
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 24.w, right: 24.w, top: 12.h, bottom: 24.h),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 52.h,
+                                width: 66.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  color: AppColors.productBGColor,
+                                  image: const DecorationImage(
+                                      image: AssetImage(ps5Controller)),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20.w,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  MyTextWidget(
+                                      title: "\$ 161.99",
+                                      style: style.subtitle1?.copyWith(
+                                          color: AppColors.mainColor)),
+                                  SizedBox(
+                                    height: 5.h,
+                                  ),
+                                  MyTextWidget(
+                                      title:
+                                          "Will be received on July 12, 2023",
+                                      style: style.subtitle1),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+
+                    //* --- Payment Method ---
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //* --- Payment Lable ---
+                        CheckOutLable(
+                          onTap: () {
+                            Get.toNamed("/cart");
+                          },
+                          title: tPaymentMeyhod,
+                          text: tViewAll,
+                          style: style,
+                        ),
+
+                        //* --- Payment Selected ---
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 24.w,
+                                right: 24.w,
+                                top: 12.h,
+                                bottom: 24.h),
+                            child: Container(
+                              width: 66.w,
+                              height: 52.h,
+                              decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                      image: AssetImage(stripeIcon)),
+                                  borderRadius: BorderRadius.circular(15.r),
+                                  color: AppColors.productBGColor),
+                            ))
+                      ],
+                    ),
+                  ],
                 ),
-
-                //* --- Payment Selected ---
-                Padding(
-                    padding: EdgeInsets.only(
-                        left: 24.w, right: 24.w, top: 12.h, bottom: 24.h),
-                    child: Container(
-                      width: 66.w,
-                      height: 52.h,
-                      decoration: BoxDecoration(
-                          image: const DecorationImage(
-                              image: AssetImage(stripeIcon)),
-                          borderRadius: BorderRadius.circular(15.r),
-                          color: AppColors.productBGColor),
-                    ))
-              ],
+              ),
             ),
           ],
         ),

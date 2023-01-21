@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:shopsy/src/screens/check%20out/check_out_screen.dart';
 
 import '../firebase/firebase_references.dart';
 
@@ -74,7 +73,7 @@ class CartController extends GetxController {
       int length = snapshot.docs.length;
       if (length > 0) {
         //* --- Cart Lenght greater then 0 than go for Checkout
-        Get.to(() => const CheckOutScreen());
+        Get.toNamed("/checkout");
       } else {
         Fluttertoast.showToast(
             msg: "Cart is empty", backgroundColor: Colors.red);

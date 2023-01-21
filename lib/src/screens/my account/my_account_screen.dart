@@ -19,12 +19,13 @@ class MyAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var style = Theme.of(context).textTheme;
+    final controller = ImagePickerController();
     return Scaffold(
       backgroundColor: Colors.white,
 
       //* --- Body Future Builder ---
-      body: FutureBuilder<DocumentSnapshot>(
-        future: userRF.doc(authCurrentUser).get(),
+      body: StreamBuilder(
+        stream: userRF.doc(authCurrentUser).snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (!snapshot.hasData) {
@@ -72,37 +73,34 @@ class MyAccountScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               //* --- Image Container ---
-                              GetBuilder<ImagePickerController>(
-                                  builder: (controller) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    controller.pickerBottomSheet(context);
-                                  },
-                                  child: Container(
-                                    height: 100.h,
-                                    width: 100.w,
-                                    decoration: snapshot.data!['profileImg'] ==
-                                            null
-                                        ? const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                AppColors.profilePicContainerBg,
-                                            image: DecorationImage(
-                                              image: AssetImage(ps5Controller),
-                                            ))
-                                        : BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                AppColors.profilePicContainerBg,
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                  snapshot.data!['profileImg']),
-                                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  controller.pickerBottomSheet(context);
+                                },
+                                child: Container(
+                                  height: 100.h,
+                                  width: 100.w,
+                                  decoration: snapshot.data!['profileImg'] ==
+                                          null
+                                      ? const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:
+                                              AppColors.profilePicContainerBg,
+                                          image: DecorationImage(
+                                            image: AssetImage(ps5Controller),
+                                          ))
+                                      : BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:
+                                              AppColors.profilePicContainerBg,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                snapshot.data!['profileImg']),
                                           ),
-                                  ),
-                                );
-                              }),
+                                        ),
+                                ),
+                              ),
 
                               Padding(
                                 padding: EdgeInsets.only(left: 25.w),

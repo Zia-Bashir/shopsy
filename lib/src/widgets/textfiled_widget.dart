@@ -6,20 +6,22 @@ class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
     Key? key,
     required this.controller,
-    required this.hintText,
+    this.hintText = '',
     required this.icon,
     this.color = AppColors.mainColor,
     required this.lable,
     this.obsureText = false,
     this.validator,
     this.keyboard,
+    this.maxLine = 1,
   }) : super(key: key);
 
   final TextEditingController controller;
-  final String hintText;
+  final String? hintText;
   final IconData icon;
   final Color color;
   final String lable;
+  final int? maxLine;
   final bool? obsureText;
   final TextInputType? keyboard;
   final String? Function(String?)? validator;
@@ -33,6 +35,7 @@ class TextFieldWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(28.r),
           ),
           child: TextFormField(
+            maxLines: maxLine,
             keyboardType: keyboard,
             controller: controller,
             obscureText: obsureText!,
