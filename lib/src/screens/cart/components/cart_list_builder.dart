@@ -71,13 +71,13 @@ class CartListBuilder extends StatelessWidget {
                       String selectedColor =
                           cartDocument['productColor'].toString();
 
-                      //? ---- Dismissible fro Cart -----
+                      //? ---- Dismissible from Cart -----
                       return Dismissible(
                         key: Key(productId),
                         direction: DismissDirection.endToStart,
                         onDismissed: (direction) {
                           controller.reomoveFromCart(productId);
-                          controller.productTotalAmount;
+                          controller.productTotalAmount();
                           showToast(
                               context,
                               const SuccessToast(

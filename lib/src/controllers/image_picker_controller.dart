@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/Material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shopsy/src/base/loading_widget.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
+import 'package:shopsy/src/widgets/mytext_widget.dart';
 
 class ImagePickerController extends GetxController {
   ImagePicker picker = ImagePicker();
@@ -16,15 +18,16 @@ class ImagePickerController extends GetxController {
   File? image;
 
   pickerBottomSheet(context) {
+    var style = Theme.of(context).textTheme;
     return showModalBottomSheet(
         context: context,
         builder: (context) {
           return Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30,
-              vertical: 50,
+            height: 200.h,
+            padding: EdgeInsets.symmetric(
+              horizontal: 24.w,
             ),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 InkWell(
@@ -33,14 +36,29 @@ class ImagePickerController extends GetxController {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                    alignment: Alignment.center,
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.mainColor,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
                     ),
-                    child: const Icon(Icons.camera),
+                    width: double.infinity,
+                    height: 80.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.r),
+                        color: AppColors.productBGColor),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.camera,
+                          color: AppColors.mainColor,
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        MyTextWidget(
+                            title: "Upload From Camera",
+                            style:
+                                style.headline3?.copyWith(color: Colors.black))
+                      ],
+                    ),
                   ),
                 ),
                 InkWell(
@@ -49,14 +67,29 @@ class ImagePickerController extends GetxController {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                    alignment: Alignment.center,
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.mainColor,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
                     ),
-                    child: const Icon(Icons.image),
+                    width: double.infinity,
+                    height: 80.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.r),
+                        color: AppColors.productBGColor),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.image,
+                          color: AppColors.mainColor,
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        MyTextWidget(
+                            title: "Upload From Gallery",
+                            style:
+                                style.headline3?.copyWith(color: Colors.black))
+                      ],
+                    ),
                   ),
                 ),
               ],

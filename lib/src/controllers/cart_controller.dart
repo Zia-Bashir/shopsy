@@ -8,6 +8,13 @@ import '../firebase/firebase_references.dart';
 class CartController extends GetxController {
   final productPrice = 0.0.obs;
   final productQuantity = 0.obs;
+  RxDouble totalAmount = 0.0.obs;
+
+  @override
+  void onInit() {
+    productTotalAmount();
+    super.onInit();
+  }
 
   //= ---- Remove from Cart -----
   reomoveFromCart(String productId) {
@@ -34,24 +41,9 @@ class CartController extends GetxController {
   }
 
   //= ---- Total Amount of Cart Products -----
-  Future<double> get productTotalAmount async {
-    RxDouble totalAmount = 0.0.obs;
-    await cartProductCollectionRF.get().then((snapshot) {
-      for (var i = 0; i < snapshot.docs.length; i++) {
-        double price = snapshot.docs[i]['price'] * snapshot.docs[i]['quantity'];
-        print("----------------$price");
-        totalAmount.value += price;
-      }
-      print('Total price: ${totalAmount.toString()}');
-    });
-
-    return (totalAmount.value * 100.round() / 100);
-  }
-
-  //= ---- Total Amount of Cart Products -----
-  // double get productTotalAmount {
+  // Future<double> get productTotalAmount async {
   //   RxDouble totalAmount = 0.0.obs;
-  //   cartProductCollectionRF.get().then((snapshot) {
+  //   await cartProductCollectionRF.get().then((snapshot) {
   //     for (var i = 0; i < snapshot.docs.length; i++) {
   //       double price = snapshot.docs[i]['price'] * snapshot.docs[i]['quantity'];
   //       print("----------------$price");
@@ -60,8 +52,22 @@ class CartController extends GetxController {
   //     print('Total price: ${totalAmount.toString()}');
   //   });
 
-  //   return totalAmount.value;
+  //   return (totalAmount.value * 100.round() / 100);
   // }
+
+  //= ---- Total Amount of Cart Products -----
+  productTotalAmount() {
+    totalAmount.value = 0.0;
+    cartProductCollectionRF.get().then((snapshot) {
+      for (var i = 0; i < snapshot.docs.length; i++) {
+        double price = snapshot.docs[i]['price'] * snapshot.docs[i]['quantity'];
+        print("----------------$price");
+        totalAmount.value += price;
+        totalAmount.value = (totalAmount.value * 100.round() / 100);
+      }
+      print('Total price: ${totalAmount.value.toString()}');
+    });
+  }
 
   //= ---- Check  Cart Length for Check Out -----
   cartLength() {

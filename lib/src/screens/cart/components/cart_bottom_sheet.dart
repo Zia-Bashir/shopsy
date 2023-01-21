@@ -96,18 +96,21 @@ class CartBottomSheet extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  GetBuilder<CartController>(builder: ((controller) {
-                    return FutureBuilder(
-                      future: controller.productTotalAmount,
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        return MyTextWidget(
-                            title: "\$ ${snapshot.data.toString()}",
-                            style: style.subtitle1?.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600));
-                      },
-                    );
-                  })),
+                  Obx(
+                    () => MyTextWidget(
+                        title:
+                            "\$ ${cartController.totalAmount.value.toStringAsFixed(2).toString()}",
+                        style: style.subtitle1?.copyWith(
+                            color: Colors.black, fontWeight: FontWeight.w600)),
+                  ),
+
+                  // GetBuilder<CartController>(builder: (_) {
+                  //   return MyTextWidget(
+                  //       title:
+                  //           "\$ ${_.totalAmount.value.toStringAsFixed(2).toString()}",
+                  //       style: style.subtitle1?.copyWith(
+                  //           color: Colors.black, fontWeight: FontWeight.w600));
+                  // })
                 ],
               ),
               SizedBox(

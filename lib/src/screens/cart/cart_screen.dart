@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shopsy/src/controllers/cart_controller.dart';
 import 'package:shopsy/src/firebase/firebase_references.dart';
 import 'package:shopsy/src/screens/cart/components/cart_bottom_sheet.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
@@ -14,6 +15,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => CartController());
     var style = Theme.of(context).textTheme;
     return Scaffold(
         body: SafeArea(

@@ -11,6 +11,7 @@ import 'package:shopsy/src/screens/my%20account/components/profile_header_lable.
 import 'package:shopsy/src/screens/profile/profile_screen.dart';
 import 'package:shopsy/src/utils/app_colors.dart';
 import 'package:shopsy/src/utils/app_images.dart';
+import 'package:shopsy/src/utils/app_sizes.dart';
 import 'package:shopsy/src/widgets/mytext_widget.dart';
 
 class MyAccountScreen extends StatelessWidget {
@@ -73,32 +74,60 @@ class MyAccountScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               //* --- Image Container ---
-                              GestureDetector(
-                                onTap: () {
-                                  controller.pickerBottomSheet(context);
-                                },
-                                child: Container(
-                                  height: 100.h,
-                                  width: 100.w,
-                                  decoration: snapshot.data!['profileImg'] ==
-                                          null
-                                      ? const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color:
-                                              AppColors.profilePicContainerBg,
-                                          image: DecorationImage(
-                                            image: AssetImage(ps5Controller),
-                                          ))
-                                      : BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color:
-                                              AppColors.profilePicContainerBg,
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                snapshot.data!['profileImg']),
+                              Container(
+                                height: 100.h,
+                                width: 100.w,
+                                decoration: snapshot.data!['profileImg'] == null
+                                    ? const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.profilePicContainerBg,
+                                        image: DecorationImage(
+                                          image: AssetImage(ps5Controller),
+                                        ))
+                                    : BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.profilePicContainerBg,
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              snapshot.data!['profileImg']),
+                                        ),
+                                      ),
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(
+                                      right: -2.w,
+                                      bottom: -2.h,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.pickerBottomSheet(context);
+                                        },
+                                        child: Container(
+                                          height:
+                                              profilePicUploadContainerHeight,
+                                          width: profilePicUploadContainerWidth,
+                                          decoration: const BoxDecoration(
+                                              color: AppColors.mainColor,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    offset: Offset(3, 3),
+                                                    color: Color.fromARGB(
+                                                        255, 227, 79, 25),
+                                                    blurRadius: 5)
+                                              ]),
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.camera_alt_outlined,
+                                              color: Colors.white,
+                                              size: 20.r,
+                                            ),
                                           ),
                                         ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
 

@@ -31,54 +31,57 @@ class ProductDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.productBGColor,
       appBar: CustomAppBar(id: pageId, proId: productId),
-      body: Column(
-        children: [
-          //* -- Product Image Container
-          SizedBox(
-            height: 280.h,
-            width: screenWidth,
-            child: ProductImageContainer(id: pageId, proId: productId),
-          ),
-          //* -- Product Details -------------
-
-          Container(
-            height: 400.h,
-            width: screenWidth,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40.r),
-                topRight: Radius.circular(40.r),
-              ),
+      body: SizedBox(
+        height: 630.h,
+        child: Column(
+          children: [
+            //* -- Product Image Container
+            SizedBox(
+              height: 280.h,
+              width: screenWidth,
+              child: ProductImageContainer(id: pageId, proId: productId),
             ),
-            child: Stack(
-              children: [
-                //* --- Product Details
-                ProductDetails(pageId: pageId, style: style),
+            //* -- Product Details -------------
 
-                //* --- Favourite Button
-                Positioned(
-                  top: 56.h,
-                  right: 0,
-                  child: Container(
-                    height: 50.h,
-                    width: 64.w,
-                    decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.3),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.r),
-                          bottomLeft: Radius.circular(20.r)),
-                    ),
-                    child: FavouriteButtonWidget(
-                      proId: productId,
-                      productIndex: pageId,
+            Container(
+              height: 400.h,
+              width: screenWidth,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40.r),
+                  topRight: Radius.circular(40.r),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  //* --- Product Details
+                  ProductDetails(pageId: pageId, style: style),
+
+                  //* --- Favourite Button
+                  Positioned(
+                    top: 56.h,
+                    right: 0,
+                    child: Container(
+                      height: 50.h,
+                      width: 64.w,
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.3),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.r),
+                            bottomLeft: Radius.circular(20.r)),
+                      ),
+                      child: FavouriteButtonWidget(
+                        proId: productId,
+                        productIndex: pageId,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       //* -- Item Selection Bottom Sheet
       bottomSheet: Material(

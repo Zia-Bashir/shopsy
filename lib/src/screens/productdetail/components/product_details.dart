@@ -41,29 +41,43 @@ class ProductDetails extends StatelessWidget {
                           "\$${snapshot.data!.docs[pageId]['price'].toString()}",
                       style: style.bodyText2),
                 ),
-                ExpandedText(
-                    style: style,
-                    description:
-                        snapshot.data!.docs[pageId]['description'].toString()),
-                Padding(
-                  padding: EdgeInsets.only(top: 13.h, bottom: 29.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      MyTextWidget(
-                          title: tGetMoreDetails,
-                          style: style.subtitle1
-                              ?.copyWith(color: AppColors.mainColor)),
-                      SizedBox(
-                        width: 13.w,
+                SizedBox(
+                  height: 60.h,
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ExpandedText(
+                              style: style,
+                              description: snapshot
+                                  .data!.docs[pageId]['description']
+                                  .toString()),
+                          Padding(
+                            padding: EdgeInsets.only(top: 13.h, bottom: 29.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                MyTextWidget(
+                                    title: tGetMoreDetails,
+                                    style: style.subtitle1
+                                        ?.copyWith(color: AppColors.mainColor)),
+                                SizedBox(
+                                  width: 13.w,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: AppColors.mainColor,
+                                  size: 12.sp,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: AppColors.mainColor,
-                        size: 12.sp,
-                      )
-                    ],
+                    ),
                   ),
                 ),
               ],
