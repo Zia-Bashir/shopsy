@@ -41,15 +41,18 @@ class DataUploaderController extends GetxController {
       //* ----- Product List Uploader
 
       for (var products in productsList) {
-        popularProductsRF.doc(products['productId']).set({
+        productsRF.doc(products['productId']).set({
           "productId": products['productId'],
           "title": products['title'],
           "description": products['description'],
           "rating": products['rating'],
           "price": products['price'],
-          "brandNmae": products['brandNmae'],
-          "isFavourite": false,
-          "isCart": false,
+          "brandName": products['brandName'],
+          "categoryName": products['categoryName'],
+          "isPopular": false,
+          "isBestSeller": false,
+          "discount": 0,
+          "inStock": 10,
         });
 
         //* ---- Document Reference
@@ -57,19 +60,11 @@ class DataUploaderController extends GetxController {
         DocumentReference imageRf({
           required String productId,
         }) =>
-            firestore
-                .collection('PopularProducts')
-                .doc(productId)
-                .collection("ProductImages")
-                .doc();
+            productsRF.doc(productId).collection("ProductImages").doc();
         DocumentReference colorRf({
           required String productId,
         }) =>
-            firestore
-                .collection('PopularProducts')
-                .doc(productId)
-                .collection("ProductColors")
-                .doc();
+            productsRF.doc(productId).collection("ProductColors").doc();
 
         //* ----- Images List Uploader
 

@@ -9,6 +9,7 @@ import '../services/storage_services.dart';
 
 @override
 void initState() {
+  //Get.put(DataUploaderController());
   Get.put(SplashController());
   Get.put(AuthController());
   Get.put(PopularProductController());
